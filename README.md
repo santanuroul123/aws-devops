@@ -8,6 +8,8 @@
 
 A **production-ready, fully automated CI/CD pipeline** built on AWS using Terraform, featuring containerized deployment with ECS Fargate, automated builds with CodePipeline, and a modern responsive web interface.
 
+![application](screenshots/1.png)\
+
 ## Table of Contents
 
 - [Overview](#-overview)
@@ -40,24 +42,7 @@ This project demonstrates a **complete AWS DevOps pipeline** that automatically 
 
 ## Architecture
 
-```
-┌─────────────┐      ┌──────────────┐      ┌─────────────┐      ┌──────────────┐
-│   GitHub    │─────▶│ CodePipeline │─────▶│  CodeBuild  │─────▶│     ECR      │
-│ Repository  │      │   (Source)   │      │   (Build)   │      │  (Registry)  │
-└─────────────┘      └──────────────┘      └─────────────┘      └──────────────┘
-                                                                         │
-                                                                         ▼
-┌─────────────┐      ┌──────────────┐      ┌─────────────┐      ┌──────────────┐
-│   Users     │◀─────│     ALB      │◀─────│ ECS Fargate │◀─────│  CodeDeploy  │
-│  (Browser)  │      │ (Load Bal.)  │      │  (Cluster)  │      │   (Deploy)   │
-└─────────────┘      └──────────────┘      └─────────────┘      └──────────────┘
-                            │
-                            ▼
-                     ┌──────────────┐
-                     │  CloudWatch  │
-                     │   (Logs)     │
-                     └──────────────┘
-```
+![architecture](screenshots/11.png)
 
 ### Key Components:
 - **VPC**: Isolated network with public/private subnets across 2 AZs
@@ -107,7 +92,7 @@ This project demonstrates a **complete AWS DevOps pipeline** that automatically 
 ### Required Tools
 - **AWS CLI** (v2.x) - [Install Guide](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
 - **Terraform** (v1.0+) - [Install Guide](https://learn.hashicorp.com/tutorials/terraform/install-cli)
-- **Git** - [Install Guide](https://git-scm.com/downloads)
+- **Git**
 - **Node.js** (v18+) - For local development (optional)
 - **Docker** - For local testing (optional)
 
@@ -115,14 +100,6 @@ This project demonstrates a **complete AWS DevOps pipeline** that automatically 
 - Active AWS account with admin access
 - AWS credentials configured (`aws configure`)
 - GitHub Personal Access Token with `repo` and `admin:repo_hook` permissions
-
-### Estimated Costs
-- **ECS Fargate**: ~$30-50/month (2 tasks, 0.25 vCPU, 0.5 GB each)
-- **ALB**: ~$20/month
-- **NAT Gateway**: ~$35/month per AZ
-- **ECR**: ~$0.10/GB/month
-- **CodeBuild**: Free tier (100 build minutes/month)
-- **Total**: ~$85-105/month
 
 ---
 
@@ -186,6 +163,22 @@ terraform apply --auto-approve
 
 **Deployment takes ~5-10 minutes**
 
+- ECR Repository
+
+  ![ecr](screenshots/7.png)
+
+- ECS Cluster
+
+  ![ecs](screenshots/8.png)
+
+- ALB
+
+  ![alb](screenshots/9.png)
+
+- S3 Bucket
+
+  ![s3](screenshots/10.png)
+
 ### 6. Access Your Application
 
 After deployment completes, Terraform will output:
@@ -199,6 +192,18 @@ ecr_repository_url = "xxxxx.dkr.ecr.us-east-1.amazonaws.com/aws-devops-app"
 ```
 
 Visit the `alb_url` to see your application! 🎉
+
+- Application Screenshot
+
+  ![application](screenshots/1.png)
+
+  ![application](screenshots/2.png)
+
+  ![application](screenshots/3.png)
+
+  ![application](screenshots/4.png)
+
+  ![application](screenshots/5.png)
 
 ---
 
@@ -300,6 +305,10 @@ git push origin main
 
 # Pipeline automatically triggers!
 ```
+
+- Pipeline Screenshot
+
+![pipeline](screenshots/6.png)
 
 ### Monitoring & Logging
 
